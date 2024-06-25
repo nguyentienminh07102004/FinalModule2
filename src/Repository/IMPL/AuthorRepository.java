@@ -17,7 +17,7 @@ public class AuthorRepository extends AbstractRepository<AuthorEntity> implement
 
     }
     public static AuthorRepository getAuthorRepository(IPublicationRepository publicationRepo) {
-        if(authorRepository != null) {
+        if(authorRepository == null) {
             publicationRepository = publicationRepo;
             authorRepository = new AuthorRepository();
         }
@@ -39,15 +39,15 @@ public class AuthorRepository extends AbstractRepository<AuthorEntity> implement
                                 .map(PublicationEntity::getAuthorId)
                                 .collect(Collectors.toList());
         return list.stream()
-                                    .filter(item -> authorIdList.contains(item.getId()))
-                                    .map(AuthorEntity::getName)
-                                    .collect(Collectors.toList());
+                    .filter(item -> authorIdList.contains(item.getId()))
+                    .map(AuthorEntity::getName)
+                    .collect(Collectors.toList());
     }
 
     @Override
     public AuthorEntity findByName(String name) {
         List<AuthorEntity> list = query(source, new AuthorMapper());
-        List<AuthorEntity> result = list.stream().filter(item -> item.getName().equals(name)).collect(Collectors.toList());
+        List<AuthorEntity> result = list.stream().filter(item -> item.getName().trim().equalsIgnoreCase(name)).collect(Collectors.toList());
         if(!result.isEmpty()) {
             return result.get(0);
         }

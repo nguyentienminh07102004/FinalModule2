@@ -40,6 +40,7 @@ public class BookService implements IBookService {
         List<BookDTO> result = new ArrayList<>();
         for(BookEntity bookEntity : bookEntityList) {
             BookDTO bookDTO = new BookDTO();
+            bookDTO.setId(bookEntity.getId());
             bookDTO.setName(bookEntity.getName());
             bookDTO.setPrice(bookEntity.getPrice());
             bookDTO.setPublicationYear(bookEntity.getPublicationYear());
@@ -85,7 +86,7 @@ public class BookService implements IBookService {
                 id = authorService.add(authorDTO);
             }
             PublicationDTO publicationDTO = new PublicationDTO();
-            publicationDTO.setBookId(bookDTO.getId());
+            publicationDTO.setBookId(bookEntity.getId());
             publicationDTO.setAuthorId(id);
             publicationDTO.setDatePublication(new Date().toString());
             publicationService.add(publicationDTO);

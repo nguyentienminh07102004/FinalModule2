@@ -32,9 +32,9 @@ public class Main {
                 }
             } else if(choise == 2) {
                 BookDTO bookDTO = new BookDTO();
-                System.out.println("Nhập vào id: ");
-                Long id = Long.parseLong(sc.nextLine());
-                bookDTO.setId(id);
+//                System.out.println("Nhập vào id: ");
+//                Long id = Long.parseLong(sc.nextLine());
+//                bookDTO.setId(id);
                 System.out.println("Nhập vào tên sách: ");
                 String name = sc.nextLine();
                 bookDTO.setName(name);
@@ -59,7 +59,7 @@ public class Main {
                 System.out.println("Nhập giá sách: ");
                 Double price = Double.parseDouble(sc.nextLine());
                 bookDTO.setPrice(price);
-                System.out.println("Nhập năm xuất bản: ");
+                System.out.println("Nhập số tái bản: ");
                 Integer reprint = Integer.parseInt(sc.nextLine());
                 bookDTO.setReprint(reprint);
                 bookService.add(bookDTO);

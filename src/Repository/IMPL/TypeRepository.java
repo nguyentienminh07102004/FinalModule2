@@ -7,7 +7,7 @@ import Repository.mapper.TypeMapper;
 import java.util.List;
 
 public class TypeRepository extends AbstractRepository<TypeEntity> implements ITypeRepository {
-    private final String source = "E:\\codeGym\\Module2\\finalCase2\\src\\Data\\TypeData.csv";
+    private final String source = "src\\Data\\TypeData.csv";
     private static TypeRepository typeRepository;
     private TypeRepository(){}
     public static TypeRepository getTypeRepository() {
