@@ -96,12 +96,56 @@ public class BookService implements IBookService {
 
     @Override
     public void update(BookDTO bookDTO) {
-        
+        BookEntity newBookEntity = new BookEntity();
+        newBookEntity.setId(bookDTO.getId());
+        newBookEntity.setName(bookDTO.getName());
+        newBookEntity.setStock(bookDTO.getStock());
+        newBookEntity.setReprint(bookDTO.getReprint());
+        newBookEntity.setPrice(bookDTO.getPrice());
+        newBookEntity.setPublicationYear(bookDTO.getPublicationYear());
+        String type = bookDTO.getType();
+        TypeDTO typeDTO = typeService.findByName(type);
+        if(typeDTO != null) {
+            newBookEntity.setTypeId(typeDTO.getId());
+        } else {
+            // nếu không có thì tạo ra loại mới
+            TypeDTO newType = new TypeDTO();
+            newType.setName(type);
+            Long id = typeService.add(newType);
+            newBookEntity.setTypeId(id);
+        }
+        String[] authors = bookDTO.getAuthorName().split(",");
+        // lấy id các tác giả cũ
+        List<Long> oldAuthorIds = publicationService.findByBookId(bookDTO.getId());
+        List<Long> ids = authorService.findIdByNames(authors);
+        for(int i = 0; i < ids.size(); i++) {
+            Long id = ids.get(i);
+            if(id == null) {
+                // Chưa có tác giả có tên này nên cần thêm
+                AuthorDTO authorDTO = new AuthorDTO();
+                authorDTO.setName(authors[i]);
+                authorDTO.setPenName(GetAuthorsPenName.getAuthorPenName(authors[i]));
+                id = authorService.add(authorDTO);
+                ids.remove(i);
+                ids.add(i, id);
+                PublicationDTO publicationDTO = new PublicationDTO();
+                publicationDTO.setBookId(newBookEntity.getId());
+                publicationDTO.setAuthorId(id);
+                publicationDTO.setDatePublication(new Date().toString());
+                publicationService.add(publicationDTO);
+            }
+        }
+        // Check các tác giả không còn nữa để xoá
+
+        bookRepository.Update(newBookEntity);
     }
 
     @Override
     public void delete(Long id) {
-        
+        BookEntity bookEntity = bookRepository.findById(id);
+        // phải xoá các Publication trước
+        publicationService.DeleteByBookId(id);
+        bookRepository.Delete(bookEntity);
     }
 
 }

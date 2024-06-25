@@ -35,7 +35,7 @@ public class AbstractRepository<T> implements IGerneric<T> {
     public void delete(String source, IRowMapper<T> rowMapper, T t) {
         List<T> data = query(source, rowMapper);
         for(int i = 0; i < data.size(); i++) {
-            if(rowMapper.writeToFile(data.get(i)).equals(rowMapper.writeToFile(t))) {
+            if(rowMapper.equal(t, data.get(i))) {
                 data.remove(i);
                 break;
             }

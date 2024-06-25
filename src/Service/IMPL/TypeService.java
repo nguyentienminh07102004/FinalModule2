@@ -46,9 +46,12 @@ public class TypeService implements ITypeService {
     public TypeDTO findByName(String name) {
         TypeDTO typeDTO = new TypeDTO();
         TypeEntity typeEntity = typeRepository.findByName(name);
-        typeDTO.setId(typeEntity.getId());
-        typeDTO.setName(typeEntity.getName());
-        return typeDTO;
+        if(typeEntity != null) {
+            typeDTO.setId(typeEntity.getId());
+            typeDTO.setName(name);
+            return typeDTO;
+        }
+        return null;
     }
 
     @Override

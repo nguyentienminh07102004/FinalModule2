@@ -38,4 +38,9 @@ public class BookRepository extends AbstractRepository<BookEntity> implements IB
         delete(source, new BookMapper(), bookEntity);
     }
 
+    @Override
+    public BookEntity findById(Long id) {
+        return findAll().stream().filter(item -> item.getId() == id).findFirst().get();
+    }
+
 }

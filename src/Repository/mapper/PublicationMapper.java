@@ -26,6 +26,6 @@ public class PublicationMapper implements IRowMapper<PublicationEntity> {
 
     @Override
     public Boolean equal(PublicationEntity t1, PublicationEntity t2) {
-        return t1.getId() == t1.getId();
+        return Objects.equals(t1.getId(), t1.getId());
     }
 }

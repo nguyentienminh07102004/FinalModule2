@@ -5,6 +5,7 @@ import Repository.entity.TypeEntity;
 import Repository.mapper.TypeMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TypeRepository extends AbstractRepository<TypeEntity> implements ITypeRepository {
     private final String source = "src\\Data\\TypeData.csv";
@@ -24,7 +25,8 @@ public class TypeRepository extends AbstractRepository<TypeEntity> implements IT
     @Override
     public TypeEntity findByName(String name) {
         List<TypeEntity> list = query(source, new TypeMapper());
-        if(list != null && !list.isEmpty()) return list.get(0);
+        list = list.stream().filter(item -> item.getName().equalsIgnoreCase(name.trim())).collect(Collectors.toList());
+        if(!list.isEmpty()) return list.get(0);
         return null;
     }
 

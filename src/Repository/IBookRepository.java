@@ -9,4 +9,5 @@ public interface IBookRepository {
     void add(BookEntity bookEntity);
     void Update(BookEntity bookEntity);
     void Delete(BookEntity bookEntity);
+    BookEntity findById(Long id);
 }

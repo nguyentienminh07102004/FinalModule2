@@ -4,7 +4,6 @@ import Repository.IPublicationRepository;
 import Repository.entity.PublicationEntity;
 import Repository.mapper.PublicationMapper;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,9 +22,9 @@ public class PublicationRepository extends AbstractRepository<PublicationEntity>
 
     private final String source = "src\\Data\\Publication.csv";
     @Override
-    public List<PublicationEntity> findByAuthorId(Long id) {
+    public PublicationEntity findByAuthorId(Long id) {
         List<PublicationEntity> list = query(source, new PublicationMapper());
-        return list.stream().filter(item -> Objects.equals(item.getAuthorId(), id)).collect(Collectors.toList());
+        return list.stream().filter(item -> Objects.equals(item.getAuthorId(), id)).findFirst().get();
     }
 
     @Override
@@ -42,5 +41,10 @@ public class PublicationRepository extends AbstractRepository<PublicationEntity>
     @Override
     public List<PublicationEntity> findAll() {
         return query(source, new PublicationMapper());
+    }
+
+    @Override
+    public void Delete(PublicationEntity publicationEntity) {
+        delete(source, new PublicationMapper(), publicationEntity);
     }
 }
